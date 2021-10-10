@@ -61,7 +61,7 @@ void HNAC::Initialize()
         if (GetAsyncKeyState(VK_ESCAPE))
         {
             running = false;
-            puts("NAC cerrado correctamente");
+            puts("ne0de's autoclicker cerrado correctamente");
         }
     }
 }
