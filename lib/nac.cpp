@@ -2,12 +2,13 @@
 
 using namespace nac;
 
-HNAC::HNAC()
+HNAC::HNAC(void)
 {
     x = 0;
     y = 0;
     running = false;
     clicking = false;
+    click_delay = 300;
 }
 
 void HNAC::SetCoordinates(int x_, int y_)
@@ -16,35 +17,64 @@ void HNAC::SetCoordinates(int x_, int y_)
     y = y_;
 }
 
-void HNAC::Initialize()
+void HNAC::ShowMenu(void)
+{
+    puts("\
+    > Numpad1: comenzar autoclicker\n\
+    > Numpad2: parar autoclicker\n\
+    > Numpad3: guardar posicion del mouse\n\
+    > Numpad4: establecer velocidad del autoclicker");
+}
+
+void HNAC::Click(void)
+{
+    Sleep(click_delay);
+    SetCursorPos(x, y);
+    mouse_event(MOUSEEVENTF_LEFTDOWN, x, y, 0, 0);
+    mouse_event(MOUSEEVENTF_LEFTUP, x, y, 0, 0);
+}
+
+void HNAC::SaveMousePosition(void)
+{
+    Sleep(KEY_DELAY);
+    POINT CursorPosition;
+    GetCursorPos(&CursorPosition);
+    SetCoordinates(CursorPosition.x, CursorPosition.y);
+    puts("> Posicion del mouse guardada");
+}
+
+void HNAC::SetClickSpeed(void)
+{
+    int tmp;
+    std::cout << "> Introduce la velocidad (100, 200..): ";
+    std::cin >> tmp;
+    click_delay = tmp;
+    std::cout << "> Nueva velocidad establecida: " << click_delay
+              << std::endl;
+}
+
+void HNAC::Initialize(void)
 {
     if (running)
     {
-        puts("NAC ya esta en ejecucion");
+        puts("ne0de's autoclicker ya esta en ejecucion");
         return;
     }
 
     running = true;
     puts("ne0de's autoclicker iniciado correctamente");
+    ShowMenu();
 
     while (running)
     {
         if (clicking)
-        {
-            Sleep(CLICK_DELAY);
-            SetCursorPos(x, y);
-            mouse_event(MOUSEEVENTF_LEFTDOWN, x, y, 0, 0);
-            mouse_event(MOUSEEVENTF_LEFTUP, x, y, 0, 0);
-        }
+            Click();
 
-        if (GetAsyncKeyState(VK_NUMPAD3))
-        {
-            Sleep(KEY_DELAY);
-            POINT CursorPosition;
-            GetCursorPos(&CursorPosition);
-            SetCoordinates(CursorPosition.x, CursorPosition.y);
-            puts("> Posicion del mouse guardada");
-        }
+        if (GetAsyncKeyState(KEY_SAVE))
+            SaveMousePosition();
+
+        if (GetAsyncKeyState(KEY_CONS) && !clicking)
+            SetClickSpeed();
 
         if (GetAsyncKeyState(KEY_START) && !clicking)
         {
@@ -64,14 +94,4 @@ void HNAC::Initialize()
             puts("ne0de's autoclicker cerrado correctamente");
         }
     }
-}
-
-int HNAC::GetXCoord()
-{
-    return x;
-}
-
-int HNAC::GetYCoord()
-{
-    return y;
 }
