@@ -11,7 +11,7 @@
 #define KEY_EXIT 0x74
 #define KEY_DELAY 300
 
-#define VERSION "v0.0.3a"
+#define VERSION "v0.0.4a"
 
 namespace nac
 {
