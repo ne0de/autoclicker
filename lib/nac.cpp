@@ -8,7 +8,7 @@ HNAC::HNAC(void)
     y = 0;
     running = false;
     clicking = false;
-    click_delay = 300;
+    click_delay = 300.0;
 }
 
 void HNAC::SetCoordinates(int x_, int y_)
@@ -20,10 +20,10 @@ void HNAC::SetCoordinates(int x_, int y_)
 void HNAC::ShowMenu(void)
 {
     puts("\
-    > Numpad1: comenzar autoclicker\n\
-    > Numpad2: parar autoclicker\n\
-    > Numpad3: guardar posicion del mouse\n\
-    > Numpad4: establecer velocidad del autoclicker");
+    > C: comenzar autoclicker\n\
+    > P: parar autoclicker\n\
+    > G: guardar posicion del mouse\n\
+    > V: establecer velocidad del autoclicker");
 }
 
 void HNAC::Click(void)
@@ -52,8 +52,8 @@ void HNAC::SaveMousePosition(void)
 
 void HNAC::SetClickSpeed(void)
 {
-    int tmp;
-    std::cout << "> Introduce la velocidad (100, 200..): ";
+    float tmp;
+    std::cout << "> Introduce la velocidad (ejemplo: 50.5): ";
     std::cin >> tmp;
     click_delay = tmp;
     std::cout << "> Nueva velocidad establecida: " << click_delay
