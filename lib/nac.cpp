@@ -34,6 +34,13 @@ void HNAC::Click(void)
     mouse_event(MOUSEEVENTF_LEFTUP, x, y, 0, 0);
 }
 
+void HNAC::SetConsoleTitleN(void)
+{
+    char tmp[] = "title NAC ";
+    strcat(tmp, VERSION);
+    system(tmp);
+}
+
 void HNAC::SaveMousePosition(void)
 {
     Sleep(KEY_DELAY);
@@ -63,6 +70,7 @@ void HNAC::Initialize(void)
 
     running = true;
     puts("ne0de's autoclicker iniciado correctamente");
+    SetConsoleTitleN();
     ShowMenu();
 
     while (running)
