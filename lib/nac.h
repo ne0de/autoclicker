@@ -3,7 +3,6 @@
 #include <string.h>
 #include <windows.h>
 
-// numpad: 1, 2, 3, 4
 #define KEY_START 0x43
 #define KEY_STOP 0x50
 #define KEY_SAVE 0x47
