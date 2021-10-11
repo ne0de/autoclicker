@@ -1,4 +1,6 @@
+#pragma once
 #include <iostream>
+#include <string.h>
 #include <windows.h>
 
 // numpad: 1, 2, 3, 4
@@ -8,6 +10,8 @@
 #define KEY_CONS 0x64
 #define KEY_EXIT 0x1B
 #define KEY_DELAY 300
+
+#define VERSION "v0.0.3a"
 
 namespace nac
 {
@@ -29,6 +33,7 @@ namespace nac
         void SetClickSpeed(void);
         void SaveMousePosition(void);
         void SetCoordinates(int x_, int y_);
+        void SetConsoleTitleN(void);
         //~HNAC();
     };
 }
