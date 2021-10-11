@@ -4,11 +4,11 @@
 #include <windows.h>
 
 // numpad: 1, 2, 3, 4
-#define KEY_START 0x61
-#define KEY_STOP 0x62
-#define KEY_SAVE 0x63
-#define KEY_CONS 0x64
-#define KEY_EXIT 0x1B
+#define KEY_START 0x43
+#define KEY_STOP 0x50
+#define KEY_SAVE 0x47
+#define KEY_CONS 0x56
+#define KEY_EXIT 0x74
 #define KEY_DELAY 300
 
 #define VERSION "v0.0.3a"
@@ -21,7 +21,7 @@ namespace nac
     private:
         int x;
         int y;
-        int click_delay;
+        float click_delay;
         bool running;
         bool clicking;
 
