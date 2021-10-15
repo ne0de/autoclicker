@@ -8,22 +8,66 @@ HNAC::HNAC(void)
     y = 0;
     running = false;
     clicking = false;
-    click_delay = 300.0;
+    click_delay = DEFAULT_SPEED;
+}
+
+void HNAC::ShowMenu(void)
+{
+    puts("ne0de's autoclicker\n\
+    > C: comenzar autoclicker\n\
+    > P: parar autoclicker\n\
+    > G: guardar posicion del mouse\n\
+    > V: establecer velocidad del autoclicker");
+    std::cout << "> Posicion actual: " << x << " " << y << std::endl;
+    std::cout << "> Velocidad actual: " << click_delay << " cps" << std::endl;
+}
+
+void HNAC::SetConsoleTitleN(void)
+{
+    char tmp[] = "title NAC ";
+    strcat(tmp, VERSION);
+    system(tmp);
+}
+
+void HNAC::ClearScreen(void)
+{
+    HANDLE hStdOut;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    DWORD count;
+    DWORD cellCount;
+    COORD homeCoords = {0, 0};
+
+    hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hStdOut == INVALID_HANDLE_VALUE)
+        return;
+
+    if (!GetConsoleScreenBufferInfo(hStdOut, &csbi))
+        return;
+    cellCount = csbi.dwSize.X * csbi.dwSize.Y;
+
+    if (!FillConsoleOutputCharacter(
+            hStdOut,
+            (TCHAR)' ',
+            cellCount,
+            homeCoords,
+            &count))
+        return;
+
+    if (!FillConsoleOutputAttribute(
+            hStdOut,
+            csbi.wAttributes,
+            cellCount,
+            homeCoords,
+            &count))
+        return;
+
+    SetConsoleCursorPosition(hStdOut, homeCoords);
 }
 
 void HNAC::SetCoordinates(int x_, int y_)
 {
     x = x_;
     y = y_;
-}
-
-void HNAC::ShowMenu(void)
-{
-    puts("\
-    > C: comenzar autoclicker\n\
-    > P: parar autoclicker\n\
-    > G: guardar posicion del mouse\n\
-    > V: establecer velocidad del autoclicker");
 }
 
 void HNAC::Click(void)
@@ -34,26 +78,21 @@ void HNAC::Click(void)
     mouse_event(MOUSEEVENTF_LEFTUP, x, y, 0, 0);
 }
 
-void HNAC::SetConsoleTitleN(void)
-{
-    char tmp[] = "title NAC ";
-    strcat(tmp, VERSION);
-    system(tmp);
-}
-
 void HNAC::SaveMousePosition(void)
 {
     Sleep(KEY_DELAY);
     POINT CursorPosition;
     GetCursorPos(&CursorPosition);
     SetCoordinates(CursorPosition.x, CursorPosition.y);
+    ClearScreen();
+    ShowMenu();
     puts("> Posicion del mouse guardada");
 }
 
 void HNAC::SetClickSpeed(void)
 {
     float tmp;
-    std::cout << "> Introduce la velocidad (ejemplo: 50.5): ";
+    std::cout << "> Introduce la velocidad (ejemplo: 50,5): ";
     std::cin >> tmp;
     click_delay = tmp;
     std::cout << "> Nueva velocidad establecida: " << click_delay
@@ -69,7 +108,6 @@ void HNAC::Initialize(void)
     }
 
     running = true;
-    puts("ne0de's autoclicker iniciado correctamente");
     SetConsoleTitleN();
     ShowMenu();
 
