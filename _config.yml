@@ -1,1 +1,4 @@
 theme: jekyll-theme-cayman
+show_downloads: true
+github:
+  zip_url: https://github.com/ne0de/nac/releases/download/v0.0.5a/nac.exe
